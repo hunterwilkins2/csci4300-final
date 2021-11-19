@@ -3,3 +3,12 @@
 - Clone this repo into your htdocs folder
 - Copy [.env.example](./.env.example) to .env
 - Import data from [mysql_data/Store.sql](./.mysql_data/Store.sql) to phpMyAdmin
+## Responsibilities
+### John
+- [ ] Orders page
+### Hunter
+- [ ] Home page
+### Nikul
+- [ ] Cart page
+### Kai
+- [ ] Update user information
