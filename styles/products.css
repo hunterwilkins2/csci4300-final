@@ -1,0 +1,52 @@
+main {
+    margin: 1rem;
+    display: flex;
+}
+
+.search {
+    width: 20rem;
+}
+
+input[type="checkbox"] {
+    box-shadow: none;
+}
+
+form::after {
+    content:'';
+    display:inline-block;
+    width: 85%; 
+    height: 1px;
+    background-color: #d3d3d3;
+}
+
+form:last-of-type::after {
+    height: 0;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 10px;
+}
+
+.card {
+    /* width: calc(25% - 10px * 3); */
+}
+
+.card img {
+    width: 250px;
+    height: 250px;
+}
+
+.card .price {
+    padding: 3px;
+    width: fit-content;
+    position: relative;
+    bottom: 116px;
+    background-color: #FF7878;
+    color: black;
+}
+
+.card .type {
+    color: #cecece;
+}
