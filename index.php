@@ -58,49 +58,40 @@
             <div class="search">
                 <form method="get">
                     <h3>Type</h3>
-                    <input type="checkbox" name="running">
+                    <input type="checkbox" name="running" onchange="this.form.submit()" <?php if(isset($_GET['running'])) echo "checked='checked'"; ?>>
                     <label for="running">Running</label>
                     <br>
-                    <input type="checkbox" name="basketball">
+                    <input type="checkbox" name="basketball" onchange="this.form.submit()" <?php if(isset($_GET['basketball'])) echo "checked='checked'"; ?>>
                     <label for="basketball">Basketball</label>
                     <br>
-                    <input type="checkbox" name="skateboard">
+                    <input type="checkbox" name="skateboard" onchange="this.form.submit()" <?php if(isset($_GET['skateboard'])) echo "checked='checked'"; ?>>
                     <label for="skateboard">Skateboard</label>
                 </form>
 
                 <form method="get">
-                    <h3>Brand</h3>
-                    <input type="checkbox" name="nike">
-                    <label for="nike">Nike</label>
-                    <br>
-                    <input type="checkbox" name="adidas">
-                    <label for="adidas">Adidas</label>
-                </form>
-
-                <form method="get">
                     <h3>Gender</h3>
-                    <input type="checkbox" name="men">
+                    <input type="checkbox" name="men" onchange="this.form.submit()" <?php if(isset($_GET['men'])) echo "checked='checked'"; ?>> 
                     <label for="men">Men's</label>
                     <br>
-                    <input type="checkbox" name="women">
+                    <input type="checkbox" name="women" onchange="this.form.submit()" <?php if(isset($_GET['women'])) echo "checked='checked'"; ?>>
                     <label for="women">Women's</label>
                 </form>
 
                 <form method="get">
                     <h3>Price</h3>
-                    <input type="checkbox" name="0-50">
+                    <input type="checkbox" name="0-50" onchange="this.form.submit()" <?php if(isset($_GET['0-50'])) echo "checked='checked'"; ?>>
                     <label for="0-50">$0 - $50</label>
                     <br>
-                    <input type="checkbox" name="50-100">
+                    <input type="checkbox" name="50-100" onchange="this.form.submit()" <?php if(isset($_GET['50-100'])) echo "checked='checked'"; ?>>
                     <label for="50-100">$50 - $100</label>
                     <br>
-                    <input type="checkbox" name="100-150">
+                    <input type="checkbox" name="100-150" onchange="this.form.submit()" <?php if(isset($_GET['100-150'])) echo "checked='checked'"; ?>>
                     <label for="100-150">$100 - $150</label>
                     <br>
-                    <input type="checkbox" name="150-200">
+                    <input type="checkbox" name="150-200" onchange="this.form.submit()" <?php if(isset($_GET['150-200'])) echo "checked='checked'"; ?>>
                     <label for="150-200">$150 - $200</label>
                     <br>
-                    <input type="checkbox" name="200+">
+                    <input type="checkbox" name="200+" onchange="this.form.submit()" <?php if(isset($_GET['200+'])) echo "checked='checked'"; ?>>
                     <label for="200+">$200+</label>
                     <br>
                 </form>
@@ -108,59 +99,75 @@
             </div>
 
             <div class="products">
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                <?php
+                    if(isset($_GET['running']) || isset($_GET['basketball']) || isset($_GET['skateboard']) || isset($_GET['men']) || isset($_GET['women']) || 
+                        isset($_GET['0-50']) || isset($_GET['50-100']) || isset($_GET['100-150']) || isset($_GET['150-200']) || isset($_GET['200+'])) {
+                        $sql_select = 'SELECT pid, pname, pdescription, price, pimage from Products WHERE 0 ';
+                    } else {
+                        $sql_select = 'SELECT pid, pname, pdescription, price, pimage from Products WHERE 1 ';
+                    }
 
+                    if(isset($_GET['running'])) {
+                        $sql_select = $sql_select.'OR ptype = \'Running\' ';
+                    }
 
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                    if(isset($_GET['basketball'])) {
+                        $sql_select = $sql_select.'OR ptype = \'Basketball\' ';
+                    }
 
+                    if(isset($_GET['skateboard'])) {
+                        $sql_select = $sql_select.'OR ptype = \'Skateboard\' ';
+                    }
 
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                    if(isset($_GET['men'])) {
+                        $sql_select = $sql_select.'OR pgender = \'Men\' ';
+                    }
 
+                    if(isset($_GET['women'])) {
+                        $sql_select = $sql_select.'OR pgender = \'Women\' ';
+                    }
 
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                    if(isset($_GET['0-50'])) {
+                        $sql_select = $sql_select.'OR price >= 0 AND price < 50 ';
+                    }
 
+                    if(isset($_GET['50-100'])) {
+                        $sql_select = $sql_select.'OR price >= 50 AND price < 100 ';
+                    }
 
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                    if(isset($_GET['100-150'])) {
+                        $sql_select = $sql_select.'OR price >= 100 AND price < 150 ';
+                    }
 
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                    if(isset($_GET['150-200'])) {
+                        $sql_select = $sql_select.'OR price >= 150 AND price < 200 ';
+                    }
 
-                <div class="card">
-                    <img src="./mysql_data/images/nike.webp">
-                    <p class="name">Nike ZoomX Invincible Run Flyknit</p>
-                    <p class="type">Men's Road Running Shoes</p>
-                    <p class="price">$130</p>
-                </div>
+                    if(isset($_GET['200+'])) {
+                        $sql_select = $sql_select.'OR price >= 200';
+                    }
 
+                    $sql_select = $sql_select.'ORDER BY RAND()';
+
+                    if ($result = $mysqli->query($sql_select)) {
+                        while ($data = $result->fetch_object()) {
+                            $products[] = $data;
+                        }
+                    }
+
+                    foreach ($products as $product) {
+                        echo '<div class="card">';
+                        echo '<a href="./pages/product_page.php?id='. urlencode($product->pid) . '">';
+                        echo '<div class="frame">';
+                        echo '<img src="./mysql_data/images/' . $product->pimage . '" alt=' . $product->pname . '>';
+                        echo '</div>';
+                        echo '<p class="price">$' . $product->price . '</p>';
+                        echo '<p class="name">' . $product->pname . '</p>';
+                        echo '<p class="type">' . $product->pdescription . '</p>';
+                        echo '</a>';
+                        echo '</div>';
+                    }
+                ?>
             </div>
         </main>
 
