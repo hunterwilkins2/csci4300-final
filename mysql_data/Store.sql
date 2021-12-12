@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 21, 2021 at 08:58 AM
+-- Generation Time: Dec 12, 2021 at 12:01 PM
 -- Server version: 8.0.27-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -21,6 +21,74 @@ SET time_zone = "+00:00";
 --
 -- Database: `Store`
 --
+CREATE DATABASE IF NOT EXISTS `Store` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `Store`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Addresses`
+--
+
+DROP TABLE IF EXISTS `Addresses`;
+CREATE TABLE `Addresses` (
+  `aid` int NOT NULL,
+  `uid` int NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  `zipcode` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CartItems`
+--
+
+DROP TABLE IF EXISTS `CartItems`;
+CREATE TABLE `CartItems` (
+  `cpid` int NOT NULL,
+  `cid` int NOT NULL,
+  `size` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Carts`
+--
+
+DROP TABLE IF EXISTS `Carts`;
+CREATE TABLE `Carts` (
+  `cid` int NOT NULL,
+  `uid` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `OrderItems`
+--
+
+DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE `OrderItems` (
+  `opid` int NOT NULL,
+  `oid` int NOT NULL,
+  `size` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Orders`
+--
+
+DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE `Orders` (
+  `oid` int NOT NULL,
+  `uid` int NOT NULL,
+  `shippingAddr` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -28,6 +96,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `Products`
 --
 
+DROP TABLE IF EXISTS `Products`;
 CREATE TABLE `Products` (
   `pid` int NOT NULL,
   `pname` varchar(255) NOT NULL,
@@ -80,6 +149,7 @@ INSERT INTO `Products` (`pid`, `pname`, `pdescription`, `price`, `pgender`, `pty
 -- Table structure for table `Users`
 --
 
+DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `uid` int NOT NULL,
   `firstName` varchar(30) NOT NULL,
@@ -100,6 +170,42 @@ INSERT INTO `Users` (`uid`, `firstName`, `lastName`, `email`, `password`) VALUES
 --
 
 --
+-- Indexes for table `Addresses`
+--
+ALTER TABLE `Addresses`
+  ADD PRIMARY KEY (`aid`),
+  ADD KEY `uid` (`uid`);
+
+--
+-- Indexes for table `CartItems`
+--
+ALTER TABLE `CartItems`
+  ADD PRIMARY KEY (`cpid`),
+  ADD KEY `cid` (`cid`);
+
+--
+-- Indexes for table `Carts`
+--
+ALTER TABLE `Carts`
+  ADD PRIMARY KEY (`cid`),
+  ADD KEY `uid` (`uid`);
+
+--
+-- Indexes for table `OrderItems`
+--
+ALTER TABLE `OrderItems`
+  ADD PRIMARY KEY (`opid`),
+  ADD KEY `oid` (`oid`);
+
+--
+-- Indexes for table `Orders`
+--
+ALTER TABLE `Orders`
+  ADD PRIMARY KEY (`oid`),
+  ADD KEY `uid` (`uid`),
+  ADD KEY `aid` (`shippingAddr`);
+
+--
 -- Indexes for table `Products`
 --
 ALTER TABLE `Products`
@@ -115,6 +221,36 @@ ALTER TABLE `Users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `Addresses`
+--
+ALTER TABLE `Addresses`
+  MODIFY `aid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `CartItems`
+--
+ALTER TABLE `CartItems`
+  MODIFY `cpid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Carts`
+--
+ALTER TABLE `Carts`
+  MODIFY `cid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `OrderItems`
+--
+ALTER TABLE `OrderItems`
+  MODIFY `opid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Orders`
+--
+ALTER TABLE `Orders`
+  MODIFY `oid` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Products`

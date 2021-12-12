@@ -58,15 +58,17 @@
             <div class="loginForm">
                 <?php
                     if(isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["passConf"])) {
-                        $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+                        
+                        $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT); // Hash users password
                         $insertSql = "INSERT INTO Users (firstName, lastName, email, password) 
-                            VALUES ('".$_POST["fname"]."', '".$_POST["lname"]."', '".$_POST["email"]."', '".$passHash."')";
+                            VALUES ('".$_POST["fname"]."', '".$_POST["lname"]."', '".$_POST["email"]."', '".$passHash."')"; // Insert statement
     
-                        if($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") {
-                            if($mysqli->query($insertSql) === TRUE) {
-                                $uidSql = "SELECT uid FROM Users WHERE email = '".$_POST["email"]."'";
+                        if($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") { // Check if password and confirm password are the same
+                            if($mysqli->query($insertSql) === TRUE) { // Creates new users account
+                                $uidSql = "SELECT uid FROM Users WHERE email = '".$_POST["email"]."'"; 
                                 $result = $mysqli->query($uidSql);
                                 
+                                // Gets the new users uid, stores it in a cookie, and redirects them to the homepage
                                 if (mysqli_num_rows($result) == 1) {
                                     $uid = $result->fetch_object()->uid;
         
