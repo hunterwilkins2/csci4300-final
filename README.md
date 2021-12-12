@@ -25,7 +25,7 @@ We use [F.R Michel's .env library](https://dev.to/fadymr/php-create-your-own-php
 ### John
 - [ ] Orders page
 ### Hunter
-- [ ] Home page
+- [x] Register/Login page and Home/Product page
 ### Nikul
 - [ ] Cart page
 ### Kai
