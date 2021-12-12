@@ -58,6 +58,7 @@
             <div class="loginForm">
                 <?php
                     if(isset($_POST["email"]) && isset($_POST["pass"])) {
+                        // Gets the user account accociated with their email
                         $uidSql = "SELECT uid, password FROM Users WHERE email = '".$_POST["email"]."'";
 
                         $result = $mysqli->query($uidSql);
@@ -66,15 +67,15 @@
                             $uid = $user->uid;
                             $hash = $user->password;
 
+                            // Checks if the hashed password stored in the database is the same as their password
                             if(password_verify($_POST["pass"], $hash)) {
+                                // Creates a new cookie and redirects them back to the homepage
                                 setcookie("uid", $uid, isset($_POST["fname"]) ? time() + 3600 : 0, '/');
 
                                 header("Location: ../index.php");
                             } else {
                                 echo '<div class="error"><p>Username or Password were incorrect</p></div>';
                             }
-
-
                         } else {
                             echo '<div class="error"><p>Username or Password were incorrect</p></div>';
                         }
