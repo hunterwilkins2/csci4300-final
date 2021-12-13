@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.5deb2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 13, 2021 at 12:51 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- Host: localhost:3306
+-- Generation Time: Dec 12, 2021 at 12:01 PM
+-- Server version: 8.0.27-0ubuntu0.20.04.1
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,52 +19,102 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `store`
+-- Database: `Store`
 --
+CREATE DATABASE IF NOT EXISTS `Store` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `Store`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Table structure for table `Addresses`
 --
 
-CREATE TABLE `orders` (
-  `pid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `Addresses`;
+CREATE TABLE `Addresses` (
+  `aid` int NOT NULL,
+  `uid` int NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  `zipcode` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CartItems`
+--
+
+DROP TABLE IF EXISTS `CartItems`;
+CREATE TABLE `CartItems` (
+  `cpid` int NOT NULL,
+  `cid` int NOT NULL,
+  `size` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Carts`
+--
+
+DROP TABLE IF EXISTS `Carts`;
+CREATE TABLE `Carts` (
+  `cid` int NOT NULL,
+  `uid` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `OrderItems`
+--
+
+DROP TABLE IF EXISTS `OrderItems`;
+CREATE TABLE `OrderItems` (
+  `opid` int NOT NULL,
+  `oid` int NOT NULL,
+  `size` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Orders`
+--
+
+DROP TABLE IF EXISTS `Orders`;
+CREATE TABLE `Orders` (
+  `oid` int NOT NULL,
+  `uid` int NOT NULL,
   `pname` varchar(255) NOT NULL,
-  `price` float NOT NULL,
-  `pimage` varchar(255) NOT NULL,
-  `uid` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`pid`, `pname`, `price`, `pimage`, `uid`) VALUES
-(42, 'Nike SB Nyjah Free 2', 95, 'sb-nyjah-free-2-skate-shoes-s4Kt9q.png', 2),
-(46, 'Nike SB Chron 2', 70, 'sb-chron-2-skate-shoes-71Mh0H.png', 2);
+  `price` int NOT NULL,
+  `shippingAddr` varchar(255) NOT NULL,
+  `pimage` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
+-- Table structure for table `Products`
 --
 
-CREATE TABLE `products` (
-  `pid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `Products`;
+CREATE TABLE `Products` (
+  `pid` int NOT NULL,
   `pname` varchar(255) NOT NULL,
   `pdescription` varchar(255) NOT NULL,
   `price` float NOT NULL,
-  `pgender` enum('Men','Women') NOT NULL,
-  `ptype` enum('Running','Basketball','Skateboard') NOT NULL,
+  `pgender` enum('Men','Women') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ptype` enum('Running','Basketball','Skateboard') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pimage` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `products`
+-- Dumping data for table `Products`
 --
 
-INSERT INTO `products` (`pid`, `pname`, `pdescription`, `price`, `pgender`, `ptype`, `pimage`) VALUES
+INSERT INTO `Products` (`pid`, `pname`, `pdescription`, `price`, `pgender`, `ptype`, `pimage`) VALUES
 (42, 'Nike SB Nyjah Free 2', 'Skate Shoes', 95, 'Men', 'Skateboard', 'sb-nyjah-free-2-skate-shoes-s4Kt9q.png'),
 (43, 'Nike SB Zoom Blazer Mid Premium', 'Skate Shoes', 105, 'Men', 'Skateboard', 'sb-zoom-blazer-mid-premium-skate-shoes-Gw3b1K.png'),
 (44, 'Nike SB Zoom Blazer Mid', 'Skate Shoes', 85, 'Men', 'Skateboard', 'sb-zoom-blazer-mid-skate-shoes-qX3MZV.png'),
@@ -98,39 +149,75 @@ INSERT INTO `products` (`pid`, `pname`, `pdescription`, `price`, `pgender`, `pty
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `Users`
 --
 
-CREATE TABLE `users` (
-  `uid` int(11) NOT NULL,
+DROP TABLE IF EXISTS `Users`;
+CREATE TABLE `Users` (
+  `uid` int NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `Users`
 --
 
-INSERT INTO `users` (`uid`, `firstName`, `lastName`, `email`, `password`) VALUES
-(2, 'Hunter', 'Wilkins', 'test@gmail.com', '$2y$10$DOQHmWruTg8SsfxKH8.Mt.7E1.1oHMPv6/PFdqzhmuoEqqhN5inma'),
-(3, 'John', 'McMonigle', 'john@gmail.com', 'password');
+INSERT INTO `Users` (`uid`, `firstName`, `lastName`, `email`, `password`) VALUES
+(2, 'Hunter', 'Wilkins', 'test@gmail.com', '$2y$10$DOQHmWruTg8SsfxKH8.Mt.7E1.1oHMPv6/PFdqzhmuoEqqhN5inma');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `products`
+-- Indexes for table `Addresses`
 --
-ALTER TABLE `products`
+ALTER TABLE `Addresses`
+  ADD PRIMARY KEY (`aid`),
+  ADD KEY `uid` (`uid`);
+
+--
+-- Indexes for table `CartItems`
+--
+ALTER TABLE `CartItems`
+  ADD PRIMARY KEY (`cpid`),
+  ADD KEY `cid` (`cid`);
+
+--
+-- Indexes for table `Carts`
+--
+ALTER TABLE `Carts`
+  ADD PRIMARY KEY (`cid`),
+  ADD KEY `uid` (`uid`);
+
+--
+-- Indexes for table `OrderItems`
+--
+ALTER TABLE `OrderItems`
+  ADD PRIMARY KEY (`opid`),
+  ADD KEY `oid` (`oid`);
+
+--
+-- Indexes for table `Orders`
+--
+ALTER TABLE `Orders`
+  ADD PRIMARY KEY (`oid`),
+  ADD KEY `uid` (`uid`),
+  ADD KEY `aid` (`shippingAddr`);
+
+--
+-- Indexes for table `Products`
+--
+ALTER TABLE `Products`
   ADD PRIMARY KEY (`pid`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `Users`
 --
-ALTER TABLE `users`
+ALTER TABLE `Users`
   ADD PRIMARY KEY (`uid`),
   ADD UNIQUE KEY `email` (`email`);
 
@@ -139,16 +226,46 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `products`
+-- AUTO_INCREMENT for table `Addresses`
 --
-ALTER TABLE `products`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+ALTER TABLE `Addresses`
+  MODIFY `aid` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT for table `CartItems`
 --
-ALTER TABLE `users`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `CartItems`
+  MODIFY `cpid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Carts`
+--
+ALTER TABLE `Carts`
+  MODIFY `cid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `OrderItems`
+--
+ALTER TABLE `OrderItems`
+  MODIFY `opid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Orders`
+--
+ALTER TABLE `Orders`
+  MODIFY `oid` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `Products`
+--
+ALTER TABLE `Products`
+  MODIFY `pid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT for table `Users`
+--
+ALTER TABLE `Users`
+  MODIFY `uid` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

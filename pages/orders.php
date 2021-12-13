@@ -93,15 +93,15 @@
           <div class="ordersDiv">
               <img class="image" src=../mysql_data/images/<?php echo $row['pimage']?>>
               <h2 class="orderText"> <?php echo $row['pname'];?></h2><br><br>
-              <p class="orderText"> Product ID:     <?php echo $row['pid'];?></p><br><br>
-              <p class="orderText"> Product Price:  <?php echo $row['price'];?></p>
+              <p class="orderText"> Order ID:     <?php echo $row['oid'];?></p><br><br>
+              <p class="orderText"> Product Price:  $<?php echo $row['price'];?></p>
           </div>
           <br>
           <?php
         }
       } else {
         echo '<h2 style="text-align: center;">Looks like you have no orders to display!
-        Why not visit our <a href="product_page.php" style="color:#6666ff">home page</a>?</h2>';
+        Why not visit our <a href="../index.php" style="color:#6666ff">home page</a>?</h2>';
       }
     } else {
       echo '<h2 style="text-align: center;">Oops! It looks like you aren\'t logged in to view products.
