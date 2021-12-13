@@ -86,8 +86,8 @@
       // require ('wow.php');
 
       if(isset($_COOKIE["uid"])) {
-        $sql = "SELECT * FROM orders WHERE uid='".$_COOKIE["uid"]."'";
-        $result = $mysqli->query($sql);
+        $joinsql = "SELECT * FROM orders INNER JOIN products ON orders.pid = products.pid";
+        $result = $conn->query($joinsql);
 
         if ($result->num_rows > 0) {
           while($row = $result->fetch_assoc()) {?>

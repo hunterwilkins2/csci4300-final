@@ -80,20 +80,17 @@ CREATE TABLE `orderitems` (
 CREATE TABLE `orders` (
   `oid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `pname` varchar(255) NOT NULL,
-  `price` int(11) NOT NULL,
   `shippingAddr` varchar(255) NOT NULL,
-  `pimage` varchar(255) NOT NULL,
-  `size` varchar(255) DEFAULT NULL
+  `size` varchar(255) DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`oid`, `uid`, `pname`, `price`, `shippingAddr`, `pimage`, `size`) VALUES
-(1, 2, 'Nike SB Nyjah Free 2', 95, '1000 Nowhere Rd, Athens GA 30606', 'sb-nyjah-free-2-skate-shoes-s4Kt9q.png', '11'),
-(2, 2, 'Zoom Freak 3 (Team)', 120, '1000 Anywhere St, Singapore, Singapore 974245', 'zoom-freak-3-team-basketball-shoe-9FVl5X.png', '11');
+INSERT INTO `orders` (`oid`, `uid`, `shippingAddr`, `size`, `pid`) VALUES
+(1, 2, '1000 Nowhere Rd, Athens GA 30606', '11', 42);
 
 -- --------------------------------------------------------
 
