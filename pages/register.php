@@ -76,7 +76,7 @@
 
                                     setcookie("uid", $uid, isset($_POST["fname"]) ? time() + 3600 : 0, '/');
 
-                                    header("Location: ./index.php");
+                                    header("Location: ../index.php");
                                 }
                             } else {
                                 // Checks for duplicate email
