@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/product_page.css">
 
     <title>Sneaks - Your Orders</title>
 
@@ -43,13 +42,17 @@
         <nav>
 
         <?php
+        require('../util/DotEnv.php');
 
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $db = "Store";
+        (new DotEnv(__DIR__ . '/../.env'))->load();
 
-        $mysqli = new mysqli($servername, $username, $password,$db);
+        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        // $servername = "localhost";
+        // $username = "root";
+        // $password = "";
+        // $db = "Store";
+
+        // $mysqli = new mysqli($servername, $username, $password,$db);
 
             if(isset($_COOKIE["uid"])) {
                 $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
@@ -63,9 +66,7 @@
                     echo '<a href="?logout">Logout</a>';
                 }
             } else {
-                echo '<a href="./cart.php">Cart</a>';
-                echo '<a href="./orders.php">Orders</a>';
-                echo '<a href="./login.php">Login</a>';
+              header("Location: ./login.php");
             }
 
             if(isset($_GET['logout'])) {
@@ -82,20 +83,19 @@
         <h1>Your Orders</h1>
       </div>
     <?php
-      require ('wow.php');
+      // require ('wow.php');
 
       if(isset($_COOKIE["uid"])) {
         $sql = "SELECT * FROM orders WHERE uid='".$_COOKIE["uid"]."'";
-        $result = $conn->query($sql);
+        $result = $mysqli->query($sql);
 
         if ($result->num_rows > 0) {
-
           while($row = $result->fetch_assoc()) {?>
           <div class="ordersDiv">
               <img class="image" src=../mysql_data/images/<?php echo $row['pimage']?>>
               <h2 class="orderText"> <?php echo $row['pname'];?></h2><br><br>
-              <p class="orderText"> Order ID:     <?php echo $row['oid'];?></p><br><br>
-              <p class="orderText"> Product Price:  $<?php echo $row['price'];?></p><br><br>
+              <p class="orderText"> Order ID: <?php echo $row['oid'];?></p><br><br>
+              <p class="orderText">$<?php echo $row['price'];?></p>
               <p class="orderText"> Size: <?php echo $row['size'];?></p><br><br>
               <p class="orderText" style="margin-left: 10px;">  <?php echo $row['shippingAddr'];?></p><br>
           </div>
@@ -111,7 +111,10 @@
       You can log in <a href="login.php" style="color:#6666ff">here</a>.</h2>';
     }
      ?>
-
+  </div>
+      <footer>
+        <p>Group 14 &copy 2021 Sneaks </p>
+      </footer>
   </div>
 </body>
 </html>

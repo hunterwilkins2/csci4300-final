@@ -18,13 +18,13 @@
 
         (new DotEnv(__DIR__ . '/.env'))->load();
 
-        //$mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $db = "Store";
+        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        // $servername = "localhost";
+        // $username = "root";
+        // $password = "";
+        // $db = "Store";
 
-        $mysqli = new mysqli($servername, $username, $password,$db);
+        // $mysqli = new mysqli($servername, $username, $password,$db);
 
     ?>
     <div class="container">
