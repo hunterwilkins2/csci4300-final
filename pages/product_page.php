@@ -85,6 +85,7 @@
                         echo '</label>';
                     }
                     echo '</div>';
+                    echo '<input type="hidden" name="pid" value="'. $_GET['id'] .'">'; 
                     echo '<button type="submit" name="btn" id="btn">Add to Cart</button>';
                     echo '</div>';
                 } else {
