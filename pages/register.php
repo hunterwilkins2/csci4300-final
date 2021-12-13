@@ -33,7 +33,7 @@
             <nav>
             <?php
                 if(isset($_COOKIE["uid"])) {
-                    $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
+                    $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
 
                     if ($result = $mysqli->query($uidSql)) {
                         $fname = $result->fetch_object()->firstName;
@@ -63,12 +63,12 @@
                 <?php
                     if(isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["passConf"])) {
                         $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT);
-                        $insertSql = "INSERT INTO Users (firstName, lastName, email, password)
+                        $insertSql = "INSERT INTO users (firstName, lastName, email, password)
                             VALUES ('".$_POST["fname"]."', '".$_POST["lname"]."', '".$_POST["email"]."', '".$passHash."')";
 
                         if($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") {
                             if($mysqli->query($insertSql) === TRUE) {
-                                $uidSql = "SELECT uid FROM Users WHERE email = '".$_POST["email"]."'";
+                                $uidSql = "SELECT uid FROM users WHERE email = '".$_POST["email"]."'";
                                 $result = $mysqli->query($uidSql);
 
                                 if (mysqli_num_rows($result) == 1) {

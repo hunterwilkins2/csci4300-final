@@ -35,7 +35,7 @@
             <nav>
             <?php
                 if(isset($_COOKIE["uid"])) {
-                    $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
+                    $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
 
                     if ($result = $mysqli->query($uidSql)) {
                         $fname = $result->fetch_object()->firstName;
@@ -64,7 +64,7 @@
             <div class="loginForm">
                 <?php
                     if(isset($_POST["email"]) && isset($_POST["pass"])) {
-                        $uidSql = "SELECT uid, password FROM Users WHERE email = '".$_POST["email"]."'";
+                        $uidSql = "SELECT uid, password FROM users WHERE email = '".$_POST["email"]."'";
 
                         $result = $mysqli->query($uidSql);
                         if (mysqli_num_rows($result) == 1) {

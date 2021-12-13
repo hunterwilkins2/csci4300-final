@@ -38,7 +38,7 @@
 
 
                 if(isset($_COOKIE["uid"])) {
-                    $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
+                    $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
 
                     if ($result = $mysqli->query($uidSql)) {
                         $fname = $result->fetch_object()->firstName;
@@ -111,9 +111,9 @@
                 <?php
                     if(isset($_GET['running']) || isset($_GET['basketball']) || isset($_GET['skateboard']) || isset($_GET['men']) || isset($_GET['women']) ||
                         isset($_GET['0-50']) || isset($_GET['50-100']) || isset($_GET['100-150']) || isset($_GET['150-200']) || isset($_GET['200+'])) {
-                        $sql_select = 'SELECT pid, pname, pdescription, price, pimage from Products WHERE 0 ';
+                        $sql_select = 'SELECT pid, pname, pdescription, price, pimage from products WHERE 0 ';
                     } else {
-                        $sql_select = 'SELECT pid, pname, pdescription, price, pimage from Products WHERE 1 ';
+                        $sql_select = 'SELECT pid, pname, pdescription, price, pimage from products WHERE 1 ';
                     }
 
                     if(isset($_GET['running'])) {
