@@ -18,7 +18,13 @@
 
         (new DotEnv(__DIR__ . '/../.env'))->load();
 
-        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        //$mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $db = "Store";
+
+        $mysqli = new mysqli($servername, $username, $password,$db);
     ?>
     <div class="container">
         <header>
@@ -46,8 +52,8 @@
                 }
 
                 if(isset($_GET['logout'])) {
-                    unset($_COOKIE['uid']); 
-                    setcookie('uid', "", time()-3600, '/'); 
+                    unset($_COOKIE['uid']);
+                    setcookie('uid', "", time()-3600, '/');
                     header("Location: ../index.php");
                 }
             ?>
@@ -77,7 +83,7 @@
                         echo '<input type="radio" name="size" value="' . $x . '" required>';
                         echo '<span>' . $x . '</span>';
                         echo '</label>';
-                    } 
+                    }
                     echo '</div>';
                     echo '<button type="submit" name="btn" id="btn">Add to Cart</button>';
                     echo '</div>';

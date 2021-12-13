@@ -18,7 +18,14 @@
 
         (new DotEnv(__DIR__ . '/.env'))->load();
 
-        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        //$mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $db = "Store";
+
+        $mysqli = new mysqli($servername, $username, $password,$db);
+
     ?>
     <div class="container">
         <header>
@@ -28,6 +35,8 @@
             </a>
             <nav>
             <?php
+
+
                 if(isset($_COOKIE["uid"])) {
                     $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
 
@@ -46,9 +55,9 @@
                 }
 
                 if(isset($_GET['logout'])) {
-                    unset($_COOKIE['uid']); 
-                    setcookie('uid', "", time()-3600); 
-                    header("Location: ./index.php");
+                  unset($_COOKIE['uid']);
+                  setcookie('uid', "", time()-3600, '/');
+                  header("Location: ./index.php");
                 }
             ?>
             </nav>
@@ -70,7 +79,7 @@
 
                 <form method="get">
                     <h3>Gender</h3>
-                    <input type="checkbox" name="men" onchange="this.form.submit()" <?php if(isset($_GET['men'])) echo "checked='checked'"; ?>> 
+                    <input type="checkbox" name="men" onchange="this.form.submit()" <?php if(isset($_GET['men'])) echo "checked='checked'"; ?>>
                     <label for="men">Men's</label>
                     <br>
                     <input type="checkbox" name="women" onchange="this.form.submit()" <?php if(isset($_GET['women'])) echo "checked='checked'"; ?>>
@@ -100,7 +109,7 @@
 
             <div class="products">
                 <?php
-                    if(isset($_GET['running']) || isset($_GET['basketball']) || isset($_GET['skateboard']) || isset($_GET['men']) || isset($_GET['women']) || 
+                    if(isset($_GET['running']) || isset($_GET['basketball']) || isset($_GET['skateboard']) || isset($_GET['men']) || isset($_GET['women']) ||
                         isset($_GET['0-50']) || isset($_GET['50-100']) || isset($_GET['100-150']) || isset($_GET['150-200']) || isset($_GET['200+'])) {
                         $sql_select = 'SELECT pid, pname, pdescription, price, pimage from Products WHERE 0 ';
                     } else {

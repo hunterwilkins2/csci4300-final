@@ -18,7 +18,13 @@
 
         (new DotEnv(__DIR__ . '/../.env'))->load();
 
-        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        //$mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $db = "Store";
+
+        $mysqli = new mysqli($servername, $username, $password,$db);
     ?>
     <div class="container">
         <header>
@@ -46,8 +52,8 @@
                 }
 
                 if(isset($_GET['logout'])) {
-                    unset($_COOKIE['uid']); 
-                    setcookie('uid', "", time()-3600, '/'); 
+                    unset($_COOKIE['uid']);
+                    setcookie('uid', "", time()-3600, '/');
                     header("Location: ../index.php");
                 }
             ?>
@@ -58,7 +64,6 @@
             <div class="loginForm">
                 <?php
                     if(isset($_POST["email"]) && isset($_POST["pass"])) {
-                        // Gets the user account accociated with their email
                         $uidSql = "SELECT uid, password FROM Users WHERE email = '".$_POST["email"]."'";
 
                         $result = $mysqli->query($uidSql);
@@ -67,15 +72,15 @@
                             $uid = $user->uid;
                             $hash = $user->password;
 
-                            // Checks if the hashed password stored in the database is the same as their password
                             if(password_verify($_POST["pass"], $hash)) {
-                                // Creates a new cookie and redirects them back to the homepage
                                 setcookie("uid", $uid, isset($_POST["fname"]) ? time() + 3600 : 0, '/');
 
                                 header("Location: ../index.php");
                             } else {
                                 echo '<div class="error"><p>Username or Password were incorrect</p></div>';
                             }
+
+
                         } else {
                             echo '<div class="error"><p>Username or Password were incorrect</p></div>';
                         }
@@ -86,7 +91,7 @@
                         <label for="email">Email: </label>
                         <input type="text" name="email" id="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                     </div>
-                    
+
                     <div class="stacked">
                         <label for="pass">Password: </label>
                         <input type="password" name="pass" id="pass" required>
@@ -96,7 +101,7 @@
                         <label for="stayLogged">Stay Logged in? </label>
                         <input type="checkbox" name="stayLogged" id="stayLogged">
                     </div>
-                    
+
                     <div class="twoCol">
                         <button type="submit" name="btn" id="btn">Login</button>
                         <a href="./register.php">Create Account</a>

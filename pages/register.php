@@ -18,7 +18,11 @@
 
         (new DotEnv(__DIR__ . '/../.env'))->load();
 
-        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        //$mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $db = "Store";
     ?>
     <div class="container">
         <header>
@@ -46,8 +50,8 @@
                 }
 
                 if(isset($_GET['logout'])) {
-                    unset($_COOKIE['uid']); 
-                    setcookie('uid', "", time()-3600, '/'); 
+                    unset($_COOKIE['uid']);
+                    setcookie('uid', "", time()-3600, '/');
                     header("Location: ../index.php");
                 }
             ?>
@@ -58,22 +62,20 @@
             <div class="loginForm">
                 <?php
                     if(isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["passConf"])) {
-                        
-                        $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT); // Hash users password
-                        $insertSql = "INSERT INTO Users (firstName, lastName, email, password) 
-                            VALUES ('".$_POST["fname"]."', '".$_POST["lname"]."', '".$_POST["email"]."', '".$passHash."')"; // Insert statement
-    
-                        if($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") { // Check if password and confirm password are the same
-                            if($mysqli->query($insertSql) === TRUE) { // Creates new users account
-                                $uidSql = "SELECT uid FROM Users WHERE email = '".$_POST["email"]."'"; 
+                        $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+                        $insertSql = "INSERT INTO Users (firstName, lastName, email, password)
+                            VALUES ('".$_POST["fname"]."', '".$_POST["lname"]."', '".$_POST["email"]."', '".$passHash."')";
+
+                        if($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") {
+                            if($mysqli->query($insertSql) === TRUE) {
+                                $uidSql = "SELECT uid FROM Users WHERE email = '".$_POST["email"]."'";
                                 $result = $mysqli->query($uidSql);
-                                
-                                // Gets the new users uid, stores it in a cookie, and redirects them to the homepage
+
                                 if (mysqli_num_rows($result) == 1) {
                                     $uid = $result->fetch_object()->uid;
-        
+
                                     setcookie("uid", $uid, isset($_POST["fname"]) ? time() + 3600 : 0, '/');
-        
+
                                     header("Location: ./index.php");
                                 }
                             } else {
@@ -84,7 +86,7 @@
                                 } else {
                                     echo '<div class="error"><p>Could not create user</p></div>';
                                 }
-                            }                        
+                            }
                         } else {
                             echo '<div class="error"><p>Passwords do not match</p></div>';
                         }
@@ -106,7 +108,7 @@
                         <label for="email">Email: </label>
                         <input type="text" name="email" id="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                     </div>
-                    
+
                     <div class="twoCol">
                         <div class="stacked">
                             <label for="pass">Password: </label>
