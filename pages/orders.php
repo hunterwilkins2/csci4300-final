@@ -78,7 +78,7 @@
         </nav>
 
     </header>
-
+    <main>
       <div id="titleText">
         <h1>Your Orders</h1>
       </div>
@@ -111,7 +111,7 @@
       You can log in <a href="login.php" style="color:#6666ff">here</a>.</h2>';
     }
      ?>
-  </div>
+  </main>
       <footer>
         <p>Group 14 &copy 2021 Sneaks </p>
       </footer>
