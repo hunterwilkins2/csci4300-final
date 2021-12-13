@@ -35,7 +35,7 @@
             <nav>
             <?php
                 if(isset($_COOKIE["uid"])) {
-                    $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
+                    $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
 
                     if ($result = $mysqli->query($uidSql)) {
                         $fname = $result->fetch_object()->firstName;
@@ -63,7 +63,7 @@
         <main>
         <?php
             if(isset($_GET['id'])) {
-                $sql_select = 'SELECT * FROM Products WHERE pid = ' . $_GET['id'];
+                $sql_select = 'SELECT * FROM products WHERE pid = ' . $_GET['id'];
                 if ($result = $mysqli->query($sql_select)) {
                     $product = $result->fetch_object();
                     echo '<div class="image">';
