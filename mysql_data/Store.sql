@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 13, 2021 at 06:30 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- Host: localhost
+-- Generation Time: Dec 13, 2021 at 11:50 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,7 +43,8 @@ CREATE TABLE `addresses` (
 
 CREATE TABLE `cartitems` (
   `cpid` int(11) NOT NULL,
-  `cid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
   `size` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -183,7 +184,8 @@ ALTER TABLE `addresses`
 --
 ALTER TABLE `cartitems`
   ADD PRIMARY KEY (`cpid`),
-  ADD KEY `cid` (`cid`);
+  ADD KEY `cid` (`uid`),
+  ADD KEY `uid` (`uid`);
 
 --
 -- Indexes for table `carts`
