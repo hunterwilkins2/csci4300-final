@@ -20,6 +20,7 @@
         width: 95%;
         border-bottom-right-radius: 20px;
         border-top-right-radius: 20px;
+        padding-bottom: 5px;
       }
       .image {
         width: 150px;
@@ -94,7 +95,9 @@
               <img class="image" src=../mysql_data/images/<?php echo $row['pimage']?>>
               <h2 class="orderText"> <?php echo $row['pname'];?></h2><br><br>
               <p class="orderText"> Order ID:     <?php echo $row['oid'];?></p><br><br>
-              <p class="orderText"> Product Price:  $<?php echo $row['price'];?></p>
+              <p class="orderText"> Product Price:  $<?php echo $row['price'];?></p><br><br>
+              <p class="orderText"> Size: <?php echo $row['size'];?></p><br><br>
+              <p class="orderText" style="margin-left: 10px;">  <?php echo $row['shippingAddr'];?></p><br>
           </div>
           <br>
           <?php
@@ -104,7 +107,7 @@
         Why not visit our <a href="../index.php" style="color:#6666ff">home page</a>?</h2>';
       }
     } else {
-      echo '<h2 style="text-align: center;">Oops! It looks like you aren\'t logged in to view products.
+      echo '<h2 style="text-align: center;">Oops! It looks like you aren\'t logged in to view past orders.
       You can log in <a href="login.php" style="color:#6666ff">here</a>.</h2>';
     }
      ?>
