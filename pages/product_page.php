@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
@@ -12,19 +13,20 @@
 
     <title>Sneaks</title>
 </head>
+
 <body>
     <?php
-        require('../util/DotEnv.php');
+    require('../util/DotEnv.php');
 
-        (new DotEnv(__DIR__ . '/../.env'))->load();
+    (new DotEnv(__DIR__ . '/../.env'))->load();
 
-        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
-        // $servername = "localhost";
-        // $username = "root";
-        // $password = "";
-        // $db = "Store";
+    $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+    // $servername = "localhost";
+    // $username = "root";
+    // $password = "";
+    // $db = "Store";
 
-        // $mysqli = new mysqli($servername, $username, $password,$db);
+    // $mysqli = new mysqli($servername, $username, $password,$db);
     ?>
     <div class="container">
         <header>
@@ -33,9 +35,9 @@
                 <h1>Sneaks</h1>
             </a>
             <nav>
-            <?php
-                if(isset($_COOKIE["uid"])) {
-                    $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
+                <?php
+                if (isset($_COOKIE["uid"])) {
+                    $uidSql = "SELECT firstName FROM users WHERE uid = '" . $_COOKIE["uid"] . "'";
 
                     if ($result = $mysqli->query($uidSql)) {
                         $fname = $result->fetch_object()->firstName;
@@ -51,18 +53,18 @@
                     echo '<a href="./login.php">Login</a>';
                 }
 
-                if(isset($_GET['logout'])) {
+                if (isset($_GET['logout'])) {
                     unset($_COOKIE['uid']);
-                    setcookie('uid', "", time()-3600, '/');
+                    setcookie('uid', "", time() - 3600, '/');
                     header("Location: ../index.php");
                 }
-            ?>
+                ?>
             </nav>
         </header>
 
         <main>
-        <?php
-            if(isset($_GET['id'])) {
+            <?php
+            if (isset($_GET['id'])) {
                 $sql_select = 'SELECT * FROM products WHERE pid = ' . $_GET['id'];
                 if ($result = $mysqli->query($sql_select)) {
                     $product = $result->fetch_object();
@@ -85,7 +87,7 @@
                         echo '</label>';
                     }
                     echo '</div>';
-                    echo '<input type="hidden" name="pid" value="'. $_GET['id'] .'">'; 
+                    echo '<input type="hidden" name="pid" value="' . $_GET['id'] . '">';
                     echo '<button type="submit" name="btn" id="btn">Add to Cart</button>';
                     echo '</div>';
                 } else {
@@ -95,7 +97,7 @@
                 echo '<p>Product not found</p>';
             }
 
-        ?>
+            ?>
         </main>
 
         <footer>
@@ -103,4 +105,5 @@
         </footer>
     </div>
 </body>
+
 </html>

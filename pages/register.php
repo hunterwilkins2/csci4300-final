@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../resources/favicon.ico">
@@ -12,17 +13,18 @@
 
     <title>Sneaks - Register</title>
 </head>
+
 <body>
     <?php
-        require('../util/DotEnv.php');
+    require('../util/DotEnv.php');
 
-        (new DotEnv(__DIR__ . '/../.env'))->load();
+    (new DotEnv(__DIR__ . '/../.env'))->load();
 
-        $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
-        // $servername = "localhost";
-        // $username = "root";
-        // $password = "";
-        // $db = "Store";
+    $mysqli = new mysqli(getenv("HOST"), getenv("USER"), getenv("PASSWORD"), getenv("DATABASE"));
+    // $servername = "localhost";
+    // $username = "root";
+    // $password = "";
+    // $db = "Store";
     ?>
     <div class="container">
         <header>
@@ -31,9 +33,9 @@
                 <h1>Sneaks</h1>
             </a>
             <nav>
-            <?php
-                if(isset($_COOKIE["uid"])) {
-                    $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
+                <?php
+                if (isset($_COOKIE["uid"])) {
+                    $uidSql = "SELECT firstName FROM users WHERE uid = '" . $_COOKIE["uid"] . "'";
 
                     if ($result = $mysqli->query($uidSql)) {
                         $fname = $result->fetch_object()->firstName;
@@ -49,48 +51,47 @@
                     echo '<a href="./login.php">Login</a>';
                 }
 
-                if(isset($_GET['logout'])) {
+                if (isset($_GET['logout'])) {
                     unset($_COOKIE['uid']);
-                    setcookie('uid', "", time()-3600, '/');
+                    setcookie('uid', "", time() - 3600, '/');
                     header("Location: ../index.php");
                 }
-            ?>
+                ?>
             </nav>
         </header>
 
         <main>
             <div class="loginForm">
                 <?php
-                    if(isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["passConf"])) {
-                        $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT);
-                        $insertSql = "INSERT INTO users (firstName, lastName, email, password)
-                            VALUES ('".$_POST["fname"]."', '".$_POST["lname"]."', '".$_POST["email"]."', '".$passHash."')";
+                if (isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["pass"]) && isset($_POST["passConf"])) {
+                    $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT);
+                    $insertSql = "INSERT INTO users (firstName, lastName, email, password)
+                            VALUES ('" . $_POST["fname"] . "', '" . $_POST["lname"] . "', '" . $_POST["email"] . "', '" . $passHash . "')";
 
-                        if($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") {
-                            if($mysqli->query($insertSql) === TRUE) {
-                                $uidSql = "SELECT uid FROM users WHERE email = '".$_POST["email"]."'";
-                                $result = $mysqli->query($uidSql);
+                    if ($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") {
+                        if ($mysqli->query($insertSql) === TRUE) {
+                            $uidSql = "SELECT uid FROM users WHERE email = '" . $_POST["email"] . "'";
+                            $result = $mysqli->query($uidSql);
 
-                                if (mysqli_num_rows($result) == 1) {
-                                    $uid = $result->fetch_object()->uid;
+                            if (mysqli_num_rows($result) == 1) {
+                                $uid = $result->fetch_object()->uid;
 
-                                    setcookie("uid", $uid, isset($_POST["fname"]) ? time() + 3600 : 0, '/');
+                                setcookie("uid", $uid, isset($_POST["fname"]) ? time() + 3600 : 0, '/');
 
-                                    header("Location: ../index.php");
-                                }
-                            } else {
-                                // Checks for duplicate email
-                                if($mysqli->errno == 1062) {
-                                    echo '<div class="error"><p>That email has already been used.</p></div>';
-
-                                } else {
-                                    echo '<div class="error"><p>Could not create user</p></div>';
-                                }
+                                header("Location: ../index.php");
                             }
                         } else {
-                            echo '<div class="error"><p>Passwords do not match</p></div>';
+                            // Checks for duplicate email
+                            if ($mysqli->errno == 1062) {
+                                echo '<div class="error"><p>That email has already been used.</p></div>';
+                            } else {
+                                echo '<div class="error"><p>Could not create user</p></div>';
+                            }
                         }
+                    } else {
+                        echo '<div class="error"><p>Passwords do not match</p></div>';
                     }
+                }
                 ?>
                 <form method="post">
                     <div class="twoCol">
@@ -135,4 +136,5 @@
         </footer>
     </div>
 </body>
+
 </html>
