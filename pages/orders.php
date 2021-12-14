@@ -61,7 +61,7 @@
         <h1>Your Orders</h1>
       </div>
     <?php
-      // require ('wow.php');
+      //  require ('wow.php');
 
       if(isset($_COOKIE["uid"])) {
         $joinsql = "SELECT * FROM orders INNER JOIN products ON orders.pid = products.pid";
