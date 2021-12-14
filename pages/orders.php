@@ -7,31 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/orders.css">
 
     <title>Sneaks - Your Orders</title>
-
-    <style>
-      #titleText {
-        text-align: center;
-      }
-      .ordersDiv {
-        background-color: #6666ff;
-        width: 95%;
-        border-bottom-right-radius: 20px;
-        border-top-right-radius: 20px;
-        padding-bottom: 5px;
-      }
-      .image {
-        width: 150px;
-        height: 150px;
-        float: left;
-        padding-right: 17px;
-        padding-left: 10px;
-      }
-      .orderText {
-        display: inline;
-      }
-    </style>
 </head>
 <div class="container">
     <header>
@@ -55,7 +33,7 @@
         // $mysqli = new mysqli($servername, $username, $password,$db);
 
             if(isset($_COOKIE["uid"])) {
-                $uidSql = "SELECT firstName FROM Users WHERE uid = '".$_COOKIE["uid"]."'";
+                $uidSql = "SELECT firstName FROM users WHERE uid = '".$_COOKIE["uid"]."'";
 
                 if ($result = $mysqli->query($uidSql)) {
                     $fname = $result->fetch_object()->firstName;
@@ -72,7 +50,7 @@
             if(isset($_GET['logout'])) {
                 unset($_COOKIE['uid']);
                 setcookie('uid', "", time()-3600, '/');
-                header("Location: ../index.php");
+                header("Location: ./../index.php");
             }
         ?>
         </nav>
@@ -87,19 +65,22 @@
 
       if(isset($_COOKIE["uid"])) {
         $joinsql = "SELECT * FROM orders INNER JOIN products ON orders.pid = products.pid";
-        $result = $conn->query($joinsql);
+        $result = $mysqli->query($joinsql);
 
         if ($result->num_rows > 0) {
           while($row = $result->fetch_assoc()) {?>
           <div class="ordersDiv">
               <img class="image" src=../mysql_data/images/<?php echo $row['pimage']?>>
-              <h2 class="orderText"> <?php echo $row['pname'];?></h2><br><br>
-              <p class="orderText"> Order ID: <?php echo $row['oid'];?></p><br><br>
-              <p class="orderText">$<?php echo $row['price'];?></p>
-              <p class="orderText"> Size: <?php echo $row['size'];?></p><br><br>
-              <p class="orderText" style="margin-left: 10px;">  <?php echo $row['shippingAddr'];?></p><br>
+              <div class="description">
+                <p class="orderText"><?php echo $row['pname'];?></p>
+                <p class="orderText"><?php echo $row['pdescription'];?></p>
+                <p class="orderText">Size: <?php echo $row['size'];?></p>
+              </div>
+              <div class="priceDiv">
+                <p class="orderText">$<?php echo $row['price'];?></p>
+                <p class="orderText">Shipped to - <?php echo $row['shippingAddr'];?></p>
+              </div>
           </div>
-          <br>
           <?php
         }
       } else {
