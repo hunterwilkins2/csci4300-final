@@ -53,80 +53,81 @@
         </header>
 
         <main>
-            <form method="post" class="preferencesForm">
-                <h3>Account Information</h3>
-
-                <?php
-                $selectSql = "SELECT * FROM users where uid = " . $_COOKIE['uid'];
-                $result = $mysqli->query($selectSql);
-
-                $oldUser = $result->fetch_object();
-                if (isset($_POST['fname'])) {
-                    if ($_POST['fname'] != $oldUser->firstName) {
-                        $updateSql = "UPDATE users 
-                        SET firstName = '" . $_POST['fname'] . "' 
-                        WHERE uid = " . $_COOKIE['uid'];
-                        $mysqli->query($updateSql);
-                        echo '<div class="success"><p>Updated your first name</p></div>';
+            <div id="titleText">
+                <h1>Account Information</h1>
+            </div>
+            <div class="updateInfo">
+                <div class="preferencesForm">
+                    <h2>Account Information</h2>
+                    <?php
+                    if (isset($_COOKIE["uid"])) {
+                        $uidSql = "SELECT email FROM users WHERE uid = '" . $_COOKIE["uid"] . "'";
+                        if ($result = $mysqli->query($uidSql)) {
+                            $mail = $result->fetch_object()->email;
+                            echo '<p>Email: ' . $mail . '</p>';
+                        }
+                        $uidSql = "SELECT firstName FROM users WHERE uid = '" . $_COOKIE["uid"] . "'";
+                        if ($result = $mysqli->query($uidSql)) {
+                            $fname = $result->fetch_object()->firstName;
+                            echo '<p>First Name: ' . $fname . '</p>';
+                        }
+                        $uidSql = "SELECT lastName FROM users WHERE uid = '" . $_COOKIE["uid"] . "'";
+                        if ($result = $mysqli->query($uidSql)) {
+                            $lname = $result->fetch_object()->lastName;
+                            echo '<p>Last Name: ' . $lname . '</p>';
+                        }
                     }
-                }
+                    ?>
+                </div>
 
-                if (isset($_POST['lname'])) {
-                    if ($_POST['lname'] != $oldUser->lastName) {
-                        $updateSql = "UPDATE users 
-                        SET lastName = '" . $_POST['lname'] . "' 
-                        WHERE uid = " . $_COOKIE['uid'];
-                        $mysqli->query($updateSql);
-                        echo '<div class="success"><p>Updated your last name</p></div>';
-                    }
-                }
+                <form class="preferencesForm" method="post">
+                    <h2>Update User Information</h2>
 
-                if (isset($_POST['pass']) && isset($_POST['passConf']) && $_POST["pass"] != "") {
-                    if ($_POST['pass'] === $_POST['passConf']) {
+                    <?php
+                    if (isset($_POST['update'])) {
+                        $fName = $_POST['fname'];
+                        $lName = $_POST['lname'];
+                        $pass = $_POST['pass'];
+
                         $passHash = password_hash($_POST["pass"], PASSWORD_DEFAULT);
-                        $updateSql = "UPDATE users 
-                        SET password = '" . $passHash . "' 
-                        WHERE uid = " . $_COOKIE['uid'];
-                        $mysqli->query($updateSql);
-                        echo '<div class="success"><p>Updated password</p></div>';
-                    } else {
-                        echo '<div class="error"><p>Passwords do not match</p></div>';
+                        $updateSql = "UPDATE users
+                              SET firstName = '$fName', lastName = '$lName',
+                              password = '$passHash'
+                              WHERE uid = '" . $_COOKIE["uid"] . "'";
+
+                        if ($_POST["pass"] == $_POST["passConf"] && $_POST["pass"] != "") {
+                            if ($mysqli->query($updateSql) === TRUE) {
+                                echo "<meta http-equiv='refresh' content='0'>";         
+                            } else {
+                                echo '<div class="error"><p>Info invalid</p></div>';
+                            }
+                        } else {
+                            echo '<div class="error"><p>Passwords do not match</p></div>';
+                        }
                     }
-                }
-                ?>
-                <?php
-                $selectSql = "SELECT * FROM users where uid = " . $_COOKIE['uid'];
-                $result = $mysqli->query($selectSql);
-
-                $user = $result->fetch_object();
-                ?>
-                <div class="stacked">
-                    <label for="email">Email: </label>
-                    <input type="text" name="email" id="email" placeholder="<?php echo $user->email ?>" readonly>
-                </div>
-                <div class="twoCol">
-                    <div class="stacked">
-                        <label for="fname">First Name: </label>
-                        <input type="text" name="fname" id="fname" value="<?php echo $user->firstName ?>">
-                    </div>
-                    <div class="stacked">
-                        <label for="lname">Last Name: </label>
-                        <input type="text" name="lname" id="lname" value="<?php echo $user->lastName ?>">
-                    </div>
-                </div>
-                <div class="twoCol">
-                    <div class="stacked">
-                        <label for="pass">New Password: </label>
-                        <input type="password" name="pass" id="pass">
+                    ?>
+                    <div class="twoCol">
+                        <div class="stacked">
+                            <label for="fname">First name:</label>
+                            <input type="text" id="fname" name="fname" value="" required>
+                        </div>
+                        <div class="stacked">
+                            <label for="lname">Last name:</label>
+                            <input type="text" id="lname" name="lname" value="" required>
+                        </div>
                     </div>
 
                     <div class="stacked">
-                        <label for="passConf">Confirm New Password: </label>
-                        <input type="password" name="passConf" id="passConf">
+                        <label for="pword">Password:</label>
+                        <input type="password" id="pass" name="pass" value="" required>
                     </div>
-                </div>
-                <button type="submit" name="btn" id="btn">Update Preferences</button>
-            </form>
+                    <div class="stacked">
+                        <label for="cpword">Confirm Password:</label>
+                        <input type="password" id="passConf" name="passConf" value="">
+                    </div>
+                    <button type="update" name="update" id="btn">Update Info</button>
+                </form>
+            </div>
         </main>
 
         <footer>
