@@ -1,0 +1,85 @@
+main {
+    margin-top: 5rem;
+}
+
+.cartitem {
+    display: flex;
+    background-color: #6666ff;
+    align-items: center;
+    margin-top: 10px;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.frame img {
+    width: 150px;
+    margin-left: 10px;
+}
+
+.product {
+    min-width: 15rem;
+    margin-left: auto;
+    margin-right: 2rem;
+    text-align: right;
+}
+
+.checkout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.total {
+    text-align: right;
+}
+
+form {
+    color: black;
+    background-color: #ebebeb;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.16);
+    margin-bottom: auto;
+}
+
+.twoCol {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stacked {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 0;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.16);
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+button {
+    appearance: none;
+
+    padding: 10px;
+    margin: 10px;
+    float: right;
+    border: none;
+    background-color: #05386b;
+    color: #edf5e1;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.16);
+
+    vertical-align: middle;
+}
+
+button:hover {
+    filter: brightness(1.4);
+}

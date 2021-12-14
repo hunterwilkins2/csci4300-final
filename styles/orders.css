@@ -1,0 +1,32 @@
+#titleText {
+    text-align: center;
+}
+
+main {
+    margin: 0 15rem;
+}
+
+.ordersDiv {
+    display: flex;
+    background-color: #6666ff;
+    align-items: center;
+    margin-top: 10px;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.image {
+    padding-left: 10px;
+    width: 150px;
+}
+
+.priceDiv {
+    margin-left: auto;
+    margin-right: 2rem;
+    text-align: right;
+}
+
+.description {
+    margin-left: 2rem;
+    text-align: right;
+}
