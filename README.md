@@ -29,4 +29,4 @@ We use [F.R Michel's .env library](https://dev.to/fadymr/php-create-your-own-php
 ### Nikul
 - [x] Cart page
 ### Kai
-- [ ] Update user information
+- [x] Update user information
